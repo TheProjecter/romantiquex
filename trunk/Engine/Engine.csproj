@@ -1,0 +1,183 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CA93D409-75AB-40D1-8E3D-BD4E9F126EB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RomantiqueX.Engine</RootNamespace>
+    <AssemblyName>RomantiqueX.Engine</AssemblyName>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SignAssembly>true</SignAssembly>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRules>-Microsoft.Design#CA1014</CodeAnalysisRules>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SlimDX, Version=1.0.2863.25597, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\SlimDX.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ContentPipeline\AssetImportContext.cs" />
+    <Compile Include="ContentPipeline\DiskFileSystem.cs" />
+    <Compile Include="ContentPipeline\EffectCompilationException.cs" />
+    <Compile Include="ContentPipeline\EffectImporter.cs" />
+    <Compile Include="ContentPipeline\EffectIncludeHandler.cs" />
+    <Compile Include="ContentPipeline\Exceptions.cs" />
+    <Compile Include="ContentPipeline\FileSystem.cs" />
+    <Compile Include="ContentPipeline\FileSystemCollection.cs" />
+    <Compile Include="ContentPipeline\IResourceImporter.cs" />
+    <Compile Include="ContentPipeline\ResourceImporter.cs" />
+    <Compile Include="ContentPipeline\ResourceImporterCollection.cs" />
+    <Compile Include="ContentPipeline\ResourceManager.cs" />
+    <Compile Include="ContentPipeline\TextureImporter.cs" />
+    <Compile Include="GameApplication.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Graphics\KBuffer\DepthPeeledKBufferManager.cs" />
+    <Compile Include="Graphics\KBuffer\DepthStencilBufferArrayHolder.cs" />
+    <Compile Include="Graphics\KBuffer\RenderTargetArrayHolder.cs" />
+    <Compile Include="Graphics\RenderTargetLayerType.cs" />
+    <Compile Include="Graphics\StandartSemantics.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StandartSemantics.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Graphics\VisualEffectCollection.cs" />
+    <Compile Include="Graphics\VisualEffects\AmbientLightingEffect.cs" />
+    <Compile Include="Graphics\Batch.cs" />
+    <Compile Include="Graphics\BatchCollection.cs" />
+    <Compile Include="Graphics\BatchManager.cs" />
+    <Compile Include="Graphics\DeferredShadingConfiguration.cs" />
+    <Compile Include="Graphics\DrawBatch.cs" />
+    <Compile Include="Graphics\DrawIndexedBatch.cs" />
+    <Compile Include="Graphics\ScreenRegion.cs" />
+    <Compile Include="Graphics\RenderTargetDescription.cs" />
+    <Compile Include="Graphics\Renderer.cs" />
+    <Compile Include="Graphics\RendererConfiguration.cs" />
+    <Compile Include="Graphics\RenderTargetDescriptionCollection.cs" />
+    <Compile Include="Graphics\RenderTargetUsageDescription.cs" />
+    <Compile Include="Graphics\VertexFormats.cs" />
+    <Compile Include="Graphics\View.cs" />
+    <Compile Include="Graphics\ViewCollection.cs" />
+    <Compile Include="Graphics\VisualEffect.cs" />
+    <Compile Include="Graphics\VisualEffectManager.cs" />
+    <Compile Include="Graphics\VisualEffects\DebugEffect.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeInfo.cs" />
+    <Compile Include="Timer.cs" />
+    <Compile Include="World\DummyObject.cs" />
+    <Compile Include="World\ListSector.cs" />
+    <Compile Include="World\Portal.cs" />
+    <Compile Include="World\PortalCollection.cs" />
+    <Compile Include="World\Sector.cs" />
+    <Compile Include="World\SectorCollection.cs" />
+    <Compile Include="World\SimpleGeometryObject.cs" />
+    <Compile Include="World\VolumeAdapter.cs" />
+    <Compile Include="World\WorldManager.cs" />
+    <Compile Include="World\WorldObject.cs" />
+    <Compile Include="World\WorldObjectCollection.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{1338202E-E7DF-47FD-A2B4-CF5CFCDCA763}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Engine\Shaders\CommonVertexShaders.hlsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\MaterialBase.hlsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\VisualEffects\AmbientLighting.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\VisualEffects\Debug.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\VisualEffects\VisualEffectBase.hlsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Graphics\StandartSemantics.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StandartSemantics.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

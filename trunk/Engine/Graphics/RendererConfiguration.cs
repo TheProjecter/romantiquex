@@ -14,8 +14,6 @@ namespace RomantiqueX.Engine.Graphics
 	{
 		public bool Windowed { get; private set; }
 
-		public Control Control { get; private set; }
-
 		public int BackBufferWidth { get; private set; }
 
 		public int BackBufferHeight { get; private set; }
@@ -25,17 +23,13 @@ namespace RomantiqueX.Engine.Graphics
 		public Rational RefreshRate { get; private set; }
 
 		public RendererConfiguration(int backBufferWidth, int backBufferHeight, Format backBufferFormat,
-			Rational refreshRate, bool windowed, Control control)
+			Rational refreshRate, bool windowed)
 		{
-			if (control == null)
-				throw new ArgumentNullException("control");
-
 			BackBufferWidth = backBufferWidth;
 			BackBufferHeight = backBufferHeight;
 			BackBufferFormat = backBufferFormat;
 			RefreshRate = refreshRate;
 			Windowed = windowed;
-			Control = control;
 		}
 	}
 }

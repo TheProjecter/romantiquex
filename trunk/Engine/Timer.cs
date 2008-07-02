@@ -7,7 +7,7 @@ using System.ComponentModel.Design;
 
 namespace RomantiqueX.Engine
 {
-	public class Timer
+	public class Timer : EngineComponent<Timer>
 	{
 		#region Fields
 
@@ -31,11 +31,8 @@ namespace RomantiqueX.Engine
 		#region Initialization
 
 		public Timer(IServiceContainer services)
+			: base(services)
 		{
-			if (services == null)
-				throw new ArgumentNullException("services");
-
-			services.AddService(typeof (Timer), this);
 		}
 
 		#endregion
@@ -67,10 +64,10 @@ namespace RomantiqueX.Engine
 			lastFPSTime = 0;
 		}
 
-		public void Update()
+		public override void Update(TimeInfo timeInfo)
 		{
 			var currentTime = Environment.TickCount;
-			var elapsedTime = (double) (currentTime - lastUpdateTime) / 1000;
+			var elapsedTime = (double)(currentTime - lastUpdateTime) / 1000;
 			totalTime += elapsedTime;
 			lastUpdateTime = currentTime;
 

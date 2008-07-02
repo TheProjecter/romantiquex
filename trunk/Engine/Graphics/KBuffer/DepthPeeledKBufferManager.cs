@@ -21,6 +21,11 @@ namespace RomantiqueX.Engine.Graphics.KBuffer
 
 		#endregion
 
+		public DeferredShadingConfiguration Configuration
+		{
+			get { return configuration; }
+		}
+
 		#region Initialization
 
 		public DepthPeeledKBufferManager(IServiceProvider services, DeferredShadingConfiguration configuration)

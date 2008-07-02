@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
+using RomantiqueX.Utils;
 using SlimDX;
 using System.ComponentModel.Design;
 
@@ -12,7 +13,7 @@ using System.ComponentModel.Design;
 namespace RomantiqueX.Engine.World
 {
 	[Serializable]
-	public sealed class WorldManager
+	public sealed class WorldManager : EngineComponent<WorldManager>
 	{
 		#region Fields
 
@@ -52,15 +53,10 @@ namespace RomantiqueX.Engine.World
 
 		#endregion
 
-		#region Creation
+		#region Initialization
 
-		public WorldManager(IServiceContainer services)
+		public WorldManager(IServiceContainer services) : base(services)
 		{
-			if (services == null)
-				throw new ArgumentNullException("services");
-
-			services.AddService(typeof (WorldManager), this);
-
 			registeredSectorsRO = new SectorReadOnlyCollection(registeredSectors);
 			registeredObjectsRO = new WorldObjectReadOnlyCollection(registeredObjects);
 			registeredPortalsRO = new PortalReadOnlyCollection(registeredPortals);

@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using RomantiqueX.Utils;
 using SlimDX;
 
 #endregion

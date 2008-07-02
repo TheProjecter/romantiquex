@@ -1,31 +1,37 @@
-﻿#region Using declarations
+#region Using declarations
 
 using System;
 using System.Diagnostics;
 using RomantiqueX.Engine.Graphics.KBuffer;
+using RomantiqueX.Engine.Graphics.VisualEffects;
 using RomantiqueX.Utils.Viewers;
 using SlimDX;
 using SlimDX.Direct3D10;
 using SlimDX.DXGI;
-using Debug=System.Diagnostics.Debug;
+using Debug = System.Diagnostics.Debug;
 using Device = SlimDX.Direct3D10.Device;
 using System.ComponentModel.Design;
+using System.Windows.Forms;
 
 #endregion
 
 namespace RomantiqueX.Engine.Graphics
 {
-	public class Renderer
+	public class Renderer : EngineComponent<Renderer>
 	{
 		#region Fields
 
 		private readonly RendererConfiguration rendererConfiguration;
-		
+
 		private readonly ViewCollection views = new ViewCollection();
 
 		private readonly DepthPeeledKBufferManager kBufferManager;
 		private readonly BatchManager batchManager;
 		private readonly VisualEffectManager visualEffectManager;
+
+		private bool canRender = true;
+
+		private Control control;
 
 		#region D3D10 & DXGI stuff
 
@@ -74,13 +80,13 @@ namespace RomantiqueX.Engine.Graphics
 
 		public bool CanRender
 		{
-			get { return !rendererConfiguration.Control.IsDisposed; }
+			get { return canRender; }
 		}
 
 		public string WindowCaption
 		{
-			get { return rendererConfiguration.Control.Text; }
-			set { rendererConfiguration.Control.Text = value; }
+			get { return control.Text; }
+			set { control.Text = value; }
 		}
 
 		public Device Device
@@ -103,7 +109,19 @@ namespace RomantiqueX.Engine.Graphics
 			get { return visualEffectManager.VisualEffects; }
 		}
 
+		public Blender Blender
+		{
+			get { return visualEffectManager.Blender; }
+			set { visualEffectManager.Blender = value; }
+		}
+
 		#endregion
+
+		#endregion
+
+		#region Constants
+
+		public const string DefaultWindowCaption = "RomantiqueX engine application"; 
 
 		#endregion
 
@@ -111,18 +129,19 @@ namespace RomantiqueX.Engine.Graphics
 
 		public Renderer(RendererConfiguration rendererConfiguration, DeferredShadingConfiguration deferredShadingConfiguration,
 			IServiceContainer services)
+			: base(services)
 		{
 			if (rendererConfiguration == null)
 				throw new ArgumentNullException("rendererConfiguration");
 			if (deferredShadingConfiguration == null)
 				throw new ArgumentNullException("deferredShadingConfiguration");
-			if (services == null)
-				throw new ArgumentNullException("services");
 
-			services.AddService(typeof (Renderer), this);
+			this.rendererConfiguration = rendererConfiguration;
 
-            this.rendererConfiguration = rendererConfiguration;
-			
+			var controlProvider = (WindowsControlProvider)services.GetService(typeof(WindowsControlProvider));
+			this.control = controlProvider.Control;
+			this.control.Disposed += Control_Disposed;
+            
 			InitializeD3D10();
 			PrepareWindow();
 			PrepareDefaultRenderTarget();
@@ -130,7 +149,15 @@ namespace RomantiqueX.Engine.Graphics
 
 			batchManager = new BatchManager(services);
 			kBufferManager = new DepthPeeledKBufferManager(services, deferredShadingConfiguration);
-			visualEffectManager = new VisualEffectManager(services);
+			visualEffectManager = new VisualEffectManager(services, deferredShadingConfiguration);
+		}
+
+		private void Control_Disposed(object sender, EventArgs e)
+		{
+			Debug.Assert(sender == control);
+			
+			canRender = false;
+			control.Disposed -= Control_Disposed;
 		}
 
 		private void PrepareDefaultRenderTarget()
@@ -144,9 +171,9 @@ namespace RomantiqueX.Engine.Graphics
 		private void PrepareWindow()
 		{
 			// Set caption
-			WindowCaption = "RomantiqueX deferred renderer";
+			WindowCaption = DefaultWindowCaption;
 			// Show control
-			rendererConfiguration.Control.Show();
+			this.control.Show();
 		}
 
 		private void InitializeD3D10()
@@ -184,7 +211,7 @@ namespace RomantiqueX.Engine.Graphics
 											BufferCount = 1,
 											IsWindowed = rendererConfiguration.Windowed,
 											Flags = SwapChainFlags.AllowModeSwitch,
-											OutputHandle = rendererConfiguration.Control.Handle,
+											OutputHandle = control.Handle,
 											SwapEffect = SwapEffect.Discard,
 											Usage = Usage.RenderTargetOutput,
 											ModeDescription = modeDescription,
@@ -205,7 +232,7 @@ namespace RomantiqueX.Engine.Graphics
 			blendStateDesc.SourceAlphaBlend = BlendOption.One;
 			blendStateDesc.DestinationAlphaBlend = BlendOption.Zero;
 			defaultBlendState = BlendState.FromDescription(device, blendStateDesc);
-			
+
 			var rasterizerStateDesc = new RasterizerStateDescription();
 			rasterizerStateDesc.FillMode = FillMode.Solid;
 			rasterizerStateDesc.CullMode = CullMode.Back;
@@ -218,7 +245,7 @@ namespace RomantiqueX.Engine.Graphics
 			rasterizerStateDesc.IsMultisampleEnabled = false;
 			rasterizerStateDesc.IsAntialiasedLineEnabled = false;
 			defaultRasterizerState = RasterizerState.FromDescription(device, rasterizerStateDesc);
-			
+
 			var depthStencilStateDesc = new DepthStencilStateDescription();
 			depthStencilStateDesc.IsDepthEnabled = true;
 			depthStencilStateDesc.DepthWriteMask = DepthWriteMask.All;
@@ -251,10 +278,10 @@ namespace RomantiqueX.Engine.Graphics
 		{
 			var viewport = new Viewport
 			{
-				X = rendererConfiguration.Control.ClientRectangle.Left,
-				Y = rendererConfiguration.Control.ClientRectangle.Top,
-				Width = rendererConfiguration.Control.ClientRectangle.Width,
-				Height = rendererConfiguration.Control.ClientRectangle.Height,
+				X = control.ClientRectangle.Left,
+				Y = control.ClientRectangle.Top,
+				Width = control.ClientRectangle.Width,
+				Height = control.ClientRectangle.Height,
 				MinZ = 0f,
 				MaxZ = 1f
 			};
@@ -307,6 +334,27 @@ namespace RomantiqueX.Engine.Graphics
 			device.OutputMerger.DepthStencilReference = defaultDepthStencilRef;
 			// Rasterizer state
 			device.Rasterizer.State = defaultRasterizerState;
+		}
+
+		#endregion
+
+		#region Protected
+
+		protected override void Dispose(bool disposing)
+		{
+			//batchManager.Dispose();
+			//kBufferManager.Dispose();
+			//visualEffectManager.Dispose();
+			
+			defaultBlendState.Dispose();
+			defaultRasterizerState.Dispose();
+			defaultDepthStencilState.Dispose();
+
+			defaultRenderTargetView.Dispose();
+
+			swapChain.Dispose();
+			device.Dispose();
+			factory.Dispose();
 		}
 
 		#endregion

@@ -15,7 +15,7 @@ namespace RomantiqueX.Engine.ContentPipeline
 
 	#endregion
 
-	public class ResourceManager
+	public class ResourceManager : EngineComponent<ResourceManager>
 	{
 		#region Nested type: LoadedAssetDescription
 
@@ -56,8 +56,6 @@ namespace RomantiqueX.Engine.ContentPipeline
 
 		#region Fields
 
-		private readonly IServiceProvider services;
-		
 		private readonly FileSystemCollection fileSystems = new FileSystemCollection();
 
 		public FileSystemCollection FileSystems
@@ -80,18 +78,12 @@ namespace RomantiqueX.Engine.ContentPipeline
 		#region Initialization
 
 		public ResourceManager(IServiceContainer services)
+			: base(services)
 		{
-			if (services == null)
-				throw new ArgumentNullException("services");
-
-			services.AddService(typeof (ResourceManager), this);
-			
-			this.services = services;
-
 			// Add default importers
 			resourceImporters.Add(new EffectImporter());
-			resourceImporters.Add(new TextureImporter());
-            // Add default file system
+			resourceImporters.Add(new Texture2DImporter());
+			// Add default file system
 			fileSystems.Add(new DiskFileSystem("Content/Engine"));
 		}
 
@@ -103,15 +95,23 @@ namespace RomantiqueX.Engine.ContentPipeline
 
 		public T Load<T>(string assetName)
 		{
+			return Load<T>(assetName, true);
+		}
+
+		public T Load<T>(string assetName, bool lookInCache)
+		{
 			if (String.IsNullOrEmpty(assetName))
 				throw new ArgumentException("Asset name can't be null or empty.", "assetName");
 
-			Type requestedType = typeof (T);
+			Type requestedType = typeof(T);
 
 			// Check cache for already loaded assets of given name and type
-			object cachedAsset = RequestAssetFromCache(assetName, requestedType);
-			if (cachedAsset != null)
-				return (T) cachedAsset;
+			if (lookInCache)
+			{
+				object cachedAsset = RequestAssetFromCache(assetName, requestedType);
+				if (cachedAsset != null)
+					return (T)cachedAsset;
+			}
 
 			// Find file system and importer for asset
 			FileSystem fileSystem = FindSuitableFileSystem(assetName);
@@ -123,7 +123,7 @@ namespace RomantiqueX.Engine.ContentPipeline
 
 			// Load asset
 			Stream assetStream = fileSystem.GetAssetStream(assetName);
-			var asset = (T) importer.Load(assetStream, new AssetImportContext(this, services, assetName, fileSystem));
+			var asset = (T)importer.Load(assetStream, new AssetImportContext(this, Services, assetName, fileSystem));
 			assetStream.Close();
 
 			// Save asset in cache
@@ -172,6 +172,25 @@ namespace RomantiqueX.Engine.ContentPipeline
 				if (fileSystem.CanLoadAsset(assetName))
 					return fileSystem;
 			return null;
+		}
+
+		#endregion
+
+		#region Protected
+
+		protected override void Dispose(bool disposing)
+		{
+			foreach (KeyValuePair<string, List<LoadedAssetDescription>> pair in cachedAssets)
+			{
+				foreach (LoadedAssetDescription description in pair.Value)
+				{
+					var disposableAsset = description.Asset as IDisposable;
+					if (disposableAsset != null)
+						disposableAsset.Dispose();
+				}
+			}
+
+			cachedAssets.Clear();
 		}
 
 		#endregion

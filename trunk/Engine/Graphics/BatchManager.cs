@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using RomantiqueX.Engine.World;
+using RomantiqueX.Utils;
 using RomantiqueX.Utils.Math;
 using RomantiqueX.Utils.Viewers;
 using SlimDX;
 using SlimDX.Direct3D10;
-using BoundingFrustumVolumeAdapter=RomantiqueX.Engine.World.BoundingFrustumVolumeAdapter;
 using Debug=System.Diagnostics.Debug;
 
 namespace RomantiqueX.Engine.Graphics

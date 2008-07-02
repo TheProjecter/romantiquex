@@ -16,10 +16,10 @@ namespace RomantiqueX.Engine.Graphics.VisualEffects
 		#endregion
 
 		public AmbientLightingEffect(IServiceProvider services)
-			: base(services, "Shaders/VisualEffects/AmbientLighting.fx", new []{RenderTargetLayerType.Color})
+			: base(services, "Shaders/VisualEffects/AmbientLighting.fx", 0, new []{RenderTargetLayerType.Color})
 		{
 			AmbientColor = new Color4(Color.White);
-			AmbientIntensity = 0.3f;
+			AmbientIntensity = 1f;
 		}
 
 		protected override void PrepareForApply(View view)

@@ -61,6 +61,15 @@ namespace RomantiqueX.Engine.Graphics {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to COLORLAYERSTOBLEND.
+        /// </summary>
+        internal static string ColorLayersToBlend {
+            get {
+                return ResourceManager.GetString("ColorLayersToBlend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DEPTH.
         /// </summary>
         internal static string DepthTextureArrayPrefix {
@@ -75,6 +84,15 @@ namespace RomantiqueX.Engine.Graphics {
         internal static string ElapsedTime {
             get {
                 return ResourceManager.GetString("ElapsedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LAYERCOUNT.
+        /// </summary>
+        internal static string LayerCount {
+            get {
+                return ResourceManager.GetString("LayerCount", resourceCulture);
             }
         }
         

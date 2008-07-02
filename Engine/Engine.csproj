@@ -78,8 +78,9 @@
     <Compile Include="ContentPipeline\ResourceImporter.cs" />
     <Compile Include="ContentPipeline\ResourceImporterCollection.cs" />
     <Compile Include="ContentPipeline\ResourceManager.cs" />
-    <Compile Include="ContentPipeline\TextureImporter.cs" />
-    <Compile Include="GameApplication.cs" />
+    <Compile Include="ContentPipeline\Texture2DImporter.cs" />
+    <Compile Include="EngineComponent.cs" />
+    <Compile Include="EngineApplication.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Graphics\KBuffer\DepthPeeledKBufferManager.cs" />
     <Compile Include="Graphics\KBuffer\DepthStencilBufferArrayHolder.cs" />
@@ -90,7 +91,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>StandartSemantics.resx</DependentUpon>
     </Compile>
-    <Compile Include="Graphics\VisualEffectCollection.cs" />
+    <Compile Include="Graphics\VisualEffects\AlphaBlender.cs" />
+    <Compile Include="Graphics\VisualEffects\Blender.cs" />
+    <Compile Include="Graphics\VisualEffects\DebugBlender.cs" />
+    <Compile Include="Graphics\VisualEffects\RenderTargetArrayHolder.cs" />
+    <Compile Include="Graphics\VisualEffects\VisualEffectCollection.cs" />
     <Compile Include="Graphics\VisualEffects\AmbientLightingEffect.cs" />
     <Compile Include="Graphics\Batch.cs" />
     <Compile Include="Graphics\BatchCollection.cs" />
@@ -107,20 +112,20 @@
     <Compile Include="Graphics\VertexFormats.cs" />
     <Compile Include="Graphics\View.cs" />
     <Compile Include="Graphics\ViewCollection.cs" />
-    <Compile Include="Graphics\VisualEffect.cs" />
-    <Compile Include="Graphics\VisualEffectManager.cs" />
-    <Compile Include="Graphics\VisualEffects\DebugEffect.cs" />
+    <Compile Include="Graphics\VisualEffects\VisualEffect.cs" />
+    <Compile Include="Graphics\VisualEffects\VisualEffectManager.cs" />
+    <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Input\KeyPressEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeInfo.cs" />
     <Compile Include="Timer.cs" />
+    <Compile Include="WindowsControlProvider.cs" />
     <Compile Include="World\DummyObject.cs" />
     <Compile Include="World\ListSector.cs" />
     <Compile Include="World\Portal.cs" />
     <Compile Include="World\PortalCollection.cs" />
     <Compile Include="World\Sector.cs" />
     <Compile Include="World\SectorCollection.cs" />
-    <Compile Include="World\SimpleGeometryObject.cs" />
-    <Compile Include="World\VolumeAdapter.cs" />
     <Compile Include="World\WorldManager.cs" />
     <Compile Include="World\WorldObject.cs" />
     <Compile Include="World\WorldObjectCollection.cs" />
@@ -149,6 +154,15 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Engine\Shaders\Blenders\AlphaBlender.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\Blenders\BlenderBase.hlsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\Blenders\DebugBlender.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Content\Engine\Shaders\CommonVertexShaders.hlsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -156,9 +170,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\Engine\Shaders\VisualEffects\AmbientLighting.fx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Content\Engine\Shaders\VisualEffects\Debug.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\Engine\Shaders\VisualEffects\VisualEffectBase.hlsl">

@@ -1,21 +1,21 @@
 #include "VisualEffectBase.hlsl"
 #include "../CommonVertexShaders.hlsl"
 
-void PS_AmbientLighting(
-	in float4 inPosition	: SV_POSITION,
-	in float2 inTexCoord	: TEXCOORD,
-	
-	out float4 outColor	: SV_TARGET)
+float4 AmbientColor;
+float AmbientIntensity;
+
+float4 PS_AmbientLighting(PS_INPUT input) : SV_TARGET	
 {
-	outColor = float4(1, 1, 1, 1);
+	float4 color = ColorLayers.Load(int4(input.Position.xy, input.RTIndex, 0));
+	return float4(color.rgb * AmbientColor.rgb * AmbientIntensity, color.a);
 }
 
 technique10 RenderEffect
 {
 	pass SinglePass
 	{
-		SetVertexShader(CompileShader(vs_4_0, VS_FullScreenQuad()));
-        	SetGeometryShader(NULL);
-        	SetPixelShader(CompileShader(ps_4_0, PS_AmbientLighting()));
+		SetVertexShader(CompileShader(vs_4_0, VS_FullScreenQuad_Position()));
+        SetGeometryShader(CompileShader(gs_4_0, GS_VisualEffect()));
+        SetPixelShader(CompileShader(ps_4_0, PS_AmbientLighting()));
 	}
 }

@@ -5,7 +5,7 @@ cbuffer Global
 {
 	float4x4 ViewMatrix					: VIEWMATRIX;
 	float4x4 ProjectionMatrix			: PROJECTIONMATRIX;
-	float4x4 VIEWPROJECTIONMATRIX		: VIEWPROJECTIONMATRIX;
+	float4x4 ViewProjectionMatrix		: VIEWPROJECTIONMATRIX;
 	float TotalTime						: TOTALTIME;
 	float ElapsedTime					: ELAPSEDTIME;
 };

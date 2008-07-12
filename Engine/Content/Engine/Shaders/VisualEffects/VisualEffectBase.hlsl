@@ -34,4 +34,14 @@ void GS_VisualEffect(triangle GS_INPUT input[3], inout TriangleStream<PS_INPUT> 
     }
 }
 
+float3 ExtractNormal(int2 position, int layer)
+{
+	return NormalLayers.Load(int4(position, layer, 0)).rgb * 2.f - 1.f;
+}
+
+float4 ExtractColor(int2 position, int layer)
+{
+	return ColorLayers.Load(int4(position, layer, 0));
+}
+
 #endif

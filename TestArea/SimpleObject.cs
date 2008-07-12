@@ -123,15 +123,15 @@ namespace TestArea
 			                    	new PositionTexCoordNormalVertex(new Vector4( 1, -1, -1, 1f), new Vector2(1, 1), Vector3.UnitX),
 			                    	new PositionTexCoordNormalVertex(new Vector4( 1, -1,  1, 1f), new Vector2(1, 0), Vector3.UnitX),
 			                    	// bottom
-			                    	new PositionTexCoordNormalVertex(new Vector4(-1, -1, -1, 1f), new Vector2(0, 0), -Vector3.UnitZ),
-			                    	new PositionTexCoordNormalVertex(new Vector4( 1, -1, -1, 1f), new Vector2(0, 1), -Vector3.UnitZ),
-			                    	new PositionTexCoordNormalVertex(new Vector4( 1, -1,  1, 1f), new Vector2(1, 1), -Vector3.UnitZ),
-			                    	new PositionTexCoordNormalVertex(new Vector4(-1, -1,  1, 1f), new Vector2(1, 0), -Vector3.UnitZ),
+			                    	new PositionTexCoordNormalVertex(new Vector4(-1, -1, -1, 1f), new Vector2(0, 0), -Vector3.UnitY),
+			                    	new PositionTexCoordNormalVertex(new Vector4( 1, -1, -1, 1f), new Vector2(0, 1), -Vector3.UnitY),
+			                    	new PositionTexCoordNormalVertex(new Vector4( 1, -1,  1, 1f), new Vector2(1, 1), -Vector3.UnitY),
+			                    	new PositionTexCoordNormalVertex(new Vector4(-1, -1,  1, 1f), new Vector2(1, 0), -Vector3.UnitY),
 			                    	// top
-			                    	new PositionTexCoordNormalVertex(new Vector4(-1,  1, -1, 1f), new Vector2(0, 0), Vector3.UnitZ),
-			                    	new PositionTexCoordNormalVertex(new Vector4( 1,  1, -1, 1f), new Vector2(0, 1), Vector3.UnitZ),
-			                    	new PositionTexCoordNormalVertex(new Vector4( 1,  1,  1, 1f), new Vector2(1, 1), Vector3.UnitZ),
-			                    	new PositionTexCoordNormalVertex(new Vector4(-1,  1,  1, 1f), new Vector2(1, 0), Vector3.UnitZ),
+			                    	new PositionTexCoordNormalVertex(new Vector4(-1,  1, -1, 1f), new Vector2(0, 0), Vector3.UnitY),
+			                    	new PositionTexCoordNormalVertex(new Vector4( 1,  1, -1, 1f), new Vector2(0, 1), Vector3.UnitY),
+			                    	new PositionTexCoordNormalVertex(new Vector4( 1,  1,  1, 1f), new Vector2(1, 1), Vector3.UnitY),
+			                    	new PositionTexCoordNormalVertex(new Vector4(-1,  1,  1, 1f), new Vector2(1, 0), Vector3.UnitY),
 			                    };
 			// Cube indices
 			short[] indices = {

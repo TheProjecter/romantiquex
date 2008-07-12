@@ -17,7 +17,7 @@ namespace RomantiqueX.Engine.Graphics.VisualEffects
 		private readonly Renderer renderer;
 		private readonly ResourceManager resourceManager;
 
-		private readonly IEnumerable<RenderTargetLayerType> requredRenderTargets;
+		private readonly IEnumerable<RenderTargetLayerType> requiredRenderTargets;
 
 		private readonly int effectLayerCount;
         #endregion
@@ -43,21 +43,21 @@ namespace RomantiqueX.Engine.Graphics.VisualEffects
 		#endregion
 
 		protected VisualEffect(IServiceProvider services, string effectAsset,
-			int effectLayerCount, IEnumerable<RenderTargetLayerType> requredRenderTargets)
+			int effectLayerCount, IEnumerable<RenderTargetLayerType> requiredRenderTargets)
 		{
 			if (services == null)
 				throw new ArgumentNullException("services");
 			if (effectAsset == null)
 				throw new ArgumentNullException("effectAsset");
-			if (requredRenderTargets == null)
-				throw new ArgumentNullException("requredRenderTargets");
+			if (requiredRenderTargets == null)
+				throw new ArgumentNullException("requiredRenderTargets");
 			if (effectLayerCount < 0)
 				throw new ArgumentOutOfRangeException("affectedLayers", "Parameter should have non-negative value.");
 
 			renderer = (Renderer)services.GetService(typeof(Renderer));
 			resourceManager = (ResourceManager)services.GetService(typeof(ResourceManager));
 			
-			this.requredRenderTargets = requredRenderTargets;
+			this.requiredRenderTargets = requiredRenderTargets;
 			this.effectLayerCount = effectLayerCount > 0 ? effectLayerCount : renderer.KBufferManager.Configuration.LayerCount;
 
 			effect = resourceManager.Load<Effect>(effectAsset);
@@ -83,7 +83,7 @@ namespace RomantiqueX.Engine.Graphics.VisualEffects
 
 		private void SetupEffectParameters(SetGeometryBufferTexturesHandler setGeometryBufferTexturesHandler)
 		{
-			setGeometryBufferTexturesHandler.Invoke(effect, requredRenderTargets);
+			setGeometryBufferTexturesHandler.Invoke(effect, requiredRenderTargets);
 			effect.SetVariableBySemantic(StandartSemantics.LayerCount, effectLayerCount, false);
 		}
 

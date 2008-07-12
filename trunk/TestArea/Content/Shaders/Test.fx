@@ -34,7 +34,7 @@ void Test_PS(
 	// Output material info
 	outNormal = float4(inNormal * 0.5f + 0.5f, 1);
 	outColor = DiffuseMap.Sample(SampleLinear, inTexCoord);
-	outColor.a *= 0.7f;
+	//outColor.a *= 0.7f;
 }
 
 RasterizerState RS

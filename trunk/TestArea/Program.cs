@@ -18,19 +18,19 @@ namespace TestArea
 	{
 		// Global
 		private static Form form;
-		
+
 		// View
 		private Camera camera;
 		private View view;
 
 		// World
 		private Sector sector;
-		private WorldObject cubeObject;
-		private WorldObject fireObject;
+		private WorldObject boxObject1, boxObject2, boxObject3;
 		private WorldObject floorObject;
 
 		// Effects
 		private AmbientLightingEffect ambientLighting;
+		private DirectionalLightingEffect sunLighting;
 
 		public Program(Control control)
 			: base(control,
@@ -48,7 +48,7 @@ namespace TestArea
 
 			// Setup debug blender
 			//Renderer.Blender = new DebugBlender(0, Services);
-			
+
 			// Add view
 			camera = new Camera(new Vector3(0, 5, 5), new Vector2(-(float)Math.PI / 4f, 0), 3.1415f / 3f, 4f / 3f, 0.1f, 100f);
 			view = Renderer.CreateDefaultView(camera);
@@ -59,20 +59,25 @@ namespace TestArea
 			WorldManager.RegisterSector(sector);
 
 			// Fill world
-			cubeObject = SimpleObject.CreateCube("Shaders/Test.fx", "Textures/Crate.jpg", "Cube", Services);
-			cubeObject.Position = new Vector3(0, 2, 0);
-			sector.RegisterObject(cubeObject);
-			fireObject = SimpleObject.CreatePlane("Shaders/Test.fx", "Textures/Fire.dds", "Fire", Services, 5, 5);
-			fireObject.Position = new Vector3(0, 0, -6);
-			fireObject.Rotation = Quaternion.RotationAxis(Vector3.UnitX, (float) Math.PI / 2f);
-			sector.RegisterObject(fireObject);
-			floorObject = SimpleObject.CreatePlane("Shaders/Test.fx", "Textures/Floor.jpg", "Floor", Services, 6, 6);
-			floorObject.Position = new Vector3(0, -1, 0);
+			boxObject1 = SimpleObject.CreateCube("Shaders/Test.fx", "Textures/Crate.jpg", "Box1", Services);
+			boxObject1.Position = new Vector3(0.4f, 1, 1.2f);
+			sector.RegisterObject(boxObject1);
+			boxObject2 = SimpleObject.CreateCube("Shaders/Test.fx", "Textures/Crate.jpg", "Box2", Services);
+			boxObject2.Position = new Vector3(-0.4f, 1, -1);
+			sector.RegisterObject(boxObject2);
+			boxObject3 = SimpleObject.CreateCube("Shaders/Test.fx", "Textures/Crate.jpg", "Box3", Services);
+			boxObject3.Position = new Vector3(0, 3.001f, 0);
+			boxObject3.Rotation = Quaternion.RotationAxis(Vector3.UnitY, (float)Math.PI / 3f);
+			sector.RegisterObject(boxObject3);
+			floorObject = SimpleObject.CreatePlane("Shaders/Test.fx", "Textures/Floor.jpg", "Floor", Services, 20, 20);
+			floorObject.Position = new Vector3(0, -0.001f, 0);
 			sector.RegisterObject(floorObject);
 
 			// Add lighting
 			ambientLighting = new AmbientLightingEffect(Services);
-			Renderer.VisualEffects.Add(ambientLighting);
+			//Renderer.VisualEffects.Add(ambientLighting);
+			sunLighting = new DirectionalLightingEffect(Services);
+			Renderer.VisualEffects.Add(sunLighting);
 
 			// Register input handler
 			InputManager.KeyDown += InputManager_KeyDown;
@@ -92,18 +97,15 @@ namespace TestArea
 		{
 			UpdateCamera(timeInfo);
 
-			cubeObject.Rotation = Quaternion.RotationAxis(Vector3.UnitY, (float)timeInfo.Total) *
-			                      Quaternion.RotationAxis(Vector3.UnitX, 0.5f * (float) timeInfo.Total);
-
 			Renderer.WindowCaption = string.Format("FPS: {0}", Timer.FramesPerSecond);
 		}
 
 		private void UpdateCamera(TimeInfo timeInfo)
 		{
-			const float cameraSpeed = 2f;
+			const float cameraSpeed = 4f;
 			const float cameraSensitivity = 0.002f;
 
-			var deltaTime = (float) timeInfo.Elapsed;
+			var deltaTime = (float)timeInfo.Elapsed;
 
 			if (InputManager.IsKeyPressed(Key.W))
 				camera.Move(deltaTime * cameraSpeed);
@@ -135,15 +137,15 @@ namespace TestArea
 		private void SetupMouseToScreenCenter()
 		{
 			Vector2 screenCenter = GetScreenCenter();
-			InputManager.MouseX = (int) screenCenter.X;
-			InputManager.MouseY = (int) screenCenter.Y;
+			InputManager.MouseX = (int)screenCenter.X;
+			InputManager.MouseY = (int)screenCenter.Y;
 		}
 
 		public static void Main(string[] args)
 		{
 			SlimDX.Configuration.ThrowOnError = false;
-			
-			using (form = new Form {ClientSize = new Size(1024, 768)})
+
+			using (form = new Form { ClientSize = new Size(1024, 768) })
 			using (var program = new Program(form))
 			{
 				program.Run();

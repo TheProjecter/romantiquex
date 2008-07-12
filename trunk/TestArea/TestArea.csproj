@@ -72,9 +72,6 @@
     <None Include="Content\Shaders\Test.fx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Content\Textures\Fire.dds">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Textures\Crate.jpg">

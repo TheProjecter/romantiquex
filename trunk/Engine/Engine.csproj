@@ -94,6 +94,8 @@
     <Compile Include="Graphics\VisualEffects\AlphaBlender.cs" />
     <Compile Include="Graphics\VisualEffects\Blender.cs" />
     <Compile Include="Graphics\VisualEffects\DebugBlender.cs" />
+    <Compile Include="Graphics\VisualEffects\DirectionalLightingEffect.cs" />
+    <Compile Include="Graphics\VisualEffects\LightingEffectBase.cs" />
     <Compile Include="Graphics\VisualEffects\RenderTargetArrayHolder.cs" />
     <Compile Include="Graphics\VisualEffects\VisualEffectCollection.cs" />
     <Compile Include="Graphics\VisualEffects\AmbientLightingEffect.cs" />
@@ -170,6 +172,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\Engine\Shaders\VisualEffects\AmbientLighting.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\VisualEffects\DirectionalLighting.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\Engine\Shaders\VisualEffects\LightingEffectBase.hlsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\Engine\Shaders\VisualEffects\VisualEffectBase.hlsl">

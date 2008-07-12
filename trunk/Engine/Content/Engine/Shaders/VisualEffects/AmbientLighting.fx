@@ -1,13 +1,9 @@
-#include "VisualEffectBase.hlsl"
-#include "../CommonVertexShaders.hlsl"
-
-float4 AmbientColor;
-float AmbientIntensity;
+#include "LightingEffectBase.hlsl"
 
 float4 PS_AmbientLighting(PS_INPUT input) : SV_TARGET	
 {
-	float4 color = ColorLayers.Load(int4(input.Position.xy, input.RTIndex, 0));
-	return float4(color.rgb * AmbientColor.rgb * AmbientIntensity, color.a);
+	float4 color = ExtractColor(input.Position.xy, input.RTIndex);
+	return float4(color.rgb * LightColor.rgb * LightIntensity, color.a);
 }
 
 technique10 RenderEffect
